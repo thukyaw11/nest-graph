@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator nestgraphql {
+  provider = "node node_modules/prisma-nestjs-graphql"
+  output   = "../src/shared/prismagraphql"
+  reExport = Directories
+}
+
+enum RolesType {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+enum Operation {
+  list
+  get
+  create
+  update
+  delete
+  search
+  onCreate
+  onUpdate
+  onDelete
+}
+
+model User {
+  id          String  @id @default(uuid())
+  email       String  @unique
+  name        String
+  password    String
+  userImageId String?
+  userImage   file?   @relation(fields: [userImageId], references: [id])
+  Role        Role?   @relation(fields: [roleId], references: [id])
+  roleId      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("user")
+}
+
+model Role {
+  id         String       @id @default(uuid())
+  name       String
+  roleType   RolesType
+  permission Permission[]
+  user       User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("permission")
+}
+
+model Permission {
+  id                String      @id @default(uuid())
+  modelName         String
+  allowedOperations Operation[]
+  roleId            String
+  role              Role        @relation(fields: [roleId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("role")
+}
+
+model file {
+  id        String   @id @default(uuid())
+  name      String
+  path      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User[]
+
+  @@map("files")
+}

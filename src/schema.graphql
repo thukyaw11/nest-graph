@@ -1,0 +1,533 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserCountAggregate {
+  id: Int!
+  email: Int!
+  name: Int!
+  password: Int!
+  userImageId: Int!
+  roleId: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type UserMinAggregate {
+  id: String
+  email: String
+  name: String
+  password: String
+  userImageId: String
+  roleId: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserMaxAggregate {
+  id: String
+  email: String
+  name: String
+  password: String
+  userImageId: String
+  roleId: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type FileCount {
+  user: Int!
+}
+
+type file {
+  id: ID!
+  name: String!
+  path: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: [User!]
+  _count: FileCount!
+}
+
+type Permission {
+  id: ID!
+  modelName: String!
+  allowedOperations: [Operation!]
+  roleId: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  role: Role!
+}
+
+enum Operation {
+  list
+  get
+  create
+  update
+  delete
+  search
+  onCreate
+  onUpdate
+  onDelete
+}
+
+type RoleCount {
+  permission: Int!
+  user: Int!
+}
+
+type Role {
+  id: ID!
+  name: String!
+  roleType: RolesType!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  permission: [Permission!]
+  user: [User!]
+  _count: RoleCount!
+}
+
+enum RolesType {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  password: String!
+  userImageId: String
+  roleId: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  userImage: file
+  Role: Role
+}
+
+type AuthResponse {
+  user: User!
+  accessToken: String!
+}
+
+type Query {
+  listUsers(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: StringFilter
+  email: StringFilter
+  name: StringFilter
+  password: StringFilter
+  userImageId: StringNullableFilter
+  roleId: StringNullableFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  userImage: FileNullableRelationFilter
+  Role: RoleNullableRelationFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input FileNullableRelationFilter {
+  is: fileWhereInput
+  isNot: fileWhereInput
+}
+
+input fileWhereInput {
+  AND: [fileWhereInput!]
+  OR: [fileWhereInput!]
+  NOT: [fileWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  path: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  user: UserListRelationFilter
+}
+
+input UserListRelationFilter {
+  every: UserWhereInput
+  some: UserWhereInput
+  none: UserWhereInput
+}
+
+input RoleNullableRelationFilter {
+  is: RoleWhereInput
+  isNot: RoleWhereInput
+}
+
+input RoleWhereInput {
+  AND: [RoleWhereInput!]
+  OR: [RoleWhereInput!]
+  NOT: [RoleWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  roleType: EnumRolesTypeFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  permission: PermissionListRelationFilter
+  user: UserListRelationFilter
+}
+
+input EnumRolesTypeFilter {
+  equals: RolesType
+  in: [RolesType!]
+  notIn: [RolesType!]
+  not: NestedEnumRolesTypeFilter
+}
+
+input NestedEnumRolesTypeFilter {
+  equals: RolesType
+  in: [RolesType!]
+  notIn: [RolesType!]
+  not: NestedEnumRolesTypeFilter
+}
+
+input PermissionListRelationFilter {
+  every: PermissionWhereInput
+  some: PermissionWhereInput
+  none: PermissionWhereInput
+}
+
+input PermissionWhereInput {
+  AND: [PermissionWhereInput!]
+  OR: [PermissionWhereInput!]
+  NOT: [PermissionWhereInput!]
+  id: StringFilter
+  modelName: StringFilter
+  allowedOperations: EnumOperationNullableListFilter
+  roleId: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  role: RoleRelationFilter
+}
+
+input EnumOperationNullableListFilter {
+  equals: [Operation!]
+  has: Operation
+  hasEvery: [Operation!]
+  hasSome: [Operation!]
+  isEmpty: Boolean
+}
+
+input RoleRelationFilter {
+  is: RoleWhereInput
+  isNot: RoleWhereInput
+}
+
+input UserOrderByWithRelationInput {
+  id: SortOrder
+  email: SortOrder
+  name: SortOrder
+  password: SortOrder
+  userImageId: SortOrderInput
+  roleId: SortOrderInput
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  userImage: fileOrderByWithRelationInput
+  Role: RoleOrderByWithRelationInput
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input SortOrderInput {
+  sort: SortOrder!
+  nulls: NullsOrder
+}
+
+enum NullsOrder {
+  first
+  last
+}
+
+input fileOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  path: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  user: UserOrderByRelationAggregateInput
+}
+
+input UserOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input RoleOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  roleType: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  permission: PermissionOrderByRelationAggregateInput
+  user: UserOrderByRelationAggregateInput
+}
+
+input PermissionOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input UserWhereUniqueInput {
+  id: String
+  email: String
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  name: StringFilter
+  password: StringFilter
+  userImageId: StringNullableFilter
+  roleId: StringNullableFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  userImage: FileNullableRelationFilter
+  Role: RoleNullableRelationFilter
+}
+
+enum UserScalarFieldEnum {
+  id
+  email
+  name
+  password
+  userImageId
+  roleId
+  createdAt
+  updatedAt
+}
+
+type Mutation {
+  createUser(dto: UserCreateInput!, image: Upload!): User!
+  loginUser(dto: UserLoginInput!): AuthResponse!
+}
+
+input UserCreateInput {
+  id: String
+  email: String!
+  name: String!
+  password: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+  userImage: fileCreateNestedOneWithoutUserInput
+  Role: RoleCreateNestedOneWithoutUserInput
+}
+
+input fileCreateNestedOneWithoutUserInput {
+  create: fileCreateWithoutUserInput
+  connectOrCreate: fileCreateOrConnectWithoutUserInput
+  connect: fileWhereUniqueInput
+}
+
+input fileCreateWithoutUserInput {
+  id: String
+  name: String!
+  path: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input fileCreateOrConnectWithoutUserInput {
+  where: fileWhereUniqueInput!
+  create: fileCreateWithoutUserInput!
+}
+
+input fileWhereUniqueInput {
+  id: String
+  AND: [fileWhereInput!]
+  OR: [fileWhereInput!]
+  NOT: [fileWhereInput!]
+  name: StringFilter
+  path: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  user: UserListRelationFilter
+}
+
+input RoleCreateNestedOneWithoutUserInput {
+  create: RoleCreateWithoutUserInput
+  connectOrCreate: RoleCreateOrConnectWithoutUserInput
+  connect: RoleWhereUniqueInput
+}
+
+input RoleCreateWithoutUserInput {
+  id: String
+  name: String!
+  roleType: RolesType!
+  createdAt: DateTime
+  updatedAt: DateTime
+  permission: PermissionCreateNestedManyWithoutRoleInput
+}
+
+input PermissionCreateNestedManyWithoutRoleInput {
+  create: [PermissionCreateWithoutRoleInput!]
+  connectOrCreate: [PermissionCreateOrConnectWithoutRoleInput!]
+  createMany: PermissionCreateManyRoleInputEnvelope
+  connect: [PermissionWhereUniqueInput!]
+}
+
+input PermissionCreateWithoutRoleInput {
+  id: String
+  modelName: String!
+  allowedOperations: PermissionCreateallowedOperationsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PermissionCreateallowedOperationsInput {
+  set: [Operation!]!
+}
+
+input PermissionCreateOrConnectWithoutRoleInput {
+  where: PermissionWhereUniqueInput!
+  create: PermissionCreateWithoutRoleInput!
+}
+
+input PermissionWhereUniqueInput {
+  id: String
+  AND: [PermissionWhereInput!]
+  OR: [PermissionWhereInput!]
+  NOT: [PermissionWhereInput!]
+  modelName: StringFilter
+  allowedOperations: EnumOperationNullableListFilter
+  roleId: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  role: RoleRelationFilter
+}
+
+input PermissionCreateManyRoleInputEnvelope {
+  data: [PermissionCreateManyRoleInput!]!
+  skipDuplicates: Boolean
+}
+
+input PermissionCreateManyRoleInput {
+  id: String
+  modelName: String!
+  allowedOperations: PermissionCreateallowedOperationsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input RoleCreateOrConnectWithoutUserInput {
+  where: RoleWhereUniqueInput!
+  create: RoleCreateWithoutUserInput!
+}
+
+input RoleWhereUniqueInput {
+  id: String
+  AND: [RoleWhereInput!]
+  OR: [RoleWhereInput!]
+  NOT: [RoleWhereInput!]
+  name: StringFilter
+  roleType: EnumRolesTypeFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  permission: PermissionListRelationFilter
+  user: UserListRelationFilter
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input UserLoginInput {
+  """Email of user"""
+  email: String!
+
+  """Password of user"""
+  password: String!
+}
